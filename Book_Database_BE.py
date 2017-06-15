@@ -22,6 +22,14 @@ def view():
     conn.close()
     return rows
 
+def viewlent():
+    conn = sqlite3.connect("books.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM books WHERE name NOT LIKE '-%' ")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
 def search(title = "" , author = "" , name = "" , date=""):
     conn = sqlite3.connect("books.db")
     cur = conn.cursor()
@@ -33,7 +41,7 @@ def search(title = "" , author = "" , name = "" , date=""):
 def delete(id):
     conn = sqlite3.connect("books.db")
     cur = conn.cursor()
-    cur.execute("DELETE FROM books WHERE id = ?", (id,))
+    cur.execute("DELETE FROM books WHERE id = ?", [id])
     conn.commit()
     conn.close()
 
@@ -51,5 +59,5 @@ connect()
 #delete(2)
 #delete(4)
 #insert("Shoe Dog" , "Phil Knight","-" , "-")
-print(view())
+#print(view())
 #print(search(author = "Phil Knight"))
